@@ -24,9 +24,10 @@ std = []
 test-default = ["no-entrypoint", "std"]
 bench-default = ["no-entrypoint", "std"]
 
-# [[bench]]
-# name = "compute_units"
-# harness = false
+[[bench]]
+name = "compute_units"
+path = "program/benches/compute_units.rs"
+harness = false
 
 [[test]]
 name = "vault"

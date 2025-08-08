@@ -24,42 +24,6 @@ src/
     └── withdraw.rs       # Withdraw instruction implementation
 ```
 
-## Instructions
-
-### Deposit (Discriminator: 0)
-
-Deposits SOL into a vault associated with a SECP256R1 public key.
-
-**Accounts:**
-- `[writable, signer]` Payer account
-- `[writable]` Vault PDA account
-- `[]` System program
-
-**Data:**
-- `pubkey: [u8; 33]` - SECP256R1 public key (compressed format)
-- `amount: u64` - Amount to deposit in lamports
-
-### Withdraw (Discriminator: 1)
-
-Withdraws all SOL from a vault using SECP256R1 signature verification.
-
-**Accounts:**
-- `[writable, signer]` Recipient account
-- `[writable]` Vault PDA account
-- `[]` Instructions sysvar
-- `[]` System program
-
-**Data:**
-- `bump: [u8; 1]` - PDA bump seed
-
-## PDA Derivation
-
-Vault addresses are derived using:
-```
-seeds = ["vault", &pubkey[0..1], &pubkey[1..33]]
-program_id = "GWtacCxsGzuySqvAALMbgfTnpVgeFSF6BgubfQiMVmgx"
-```
-
 ## Dependencies
 
 - **pinocchio**: Core Solana program framework
@@ -77,6 +41,22 @@ Available tests:
 - `test_initialize_vault` - Tests deposit functionality
 - `test_withdraw_vault` - Tests withdraw setup
 - `test_pda_derivation` - Validates PDA generation
+
+## Benchmarking
+
+The program includes comprehensive compute unit benchmarks for performance analysis:
+
+```bash
+cargo bench
+```
+
+### Benchmark Details
+
+- **Framework**: Mollusk SVM with MolluskComputeUnitBencher
+- **Environment**: Solana CLI 2.2.17 (Agave client)
+- **Output**: Generated in `program/benches/compute_units.md`
+
+The deposit benchmark measures a complete successful transaction, while the withdraw benchmark measures the initial setup and validation phase before signature verification (which fails without a proper SECP256R1 signature).
 
 ## Building
 
@@ -102,3 +82,15 @@ solana program deploy target/deploy/pinocchio_secp256r1_vault.so
 ```
 GWtacCxsGzuySqvAALMbgfTnpVgeFSF6BgubfQiMVmgx
 ```
+
+## 👨‍💻 Author & Support
+
+**Maintained by [@Shradhesh71](https://github.com/Shradhesh71)**
+
+🐛 **Found a bug?** [Open an issue](https://github.com/Shradhesh71/pinocchio_secp256r1_vault/issues)  
+💡 **Feature request?** [Start a discussion](https://github.com/Shradhesh71/pinocchio_secp256r1_vault/discussions)  
+📧 **Need help?** Check our documentation or open an issue
+
+---
+
+**Built with ❤️ for the Solana ecosystem**
