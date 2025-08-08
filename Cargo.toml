@@ -1,0 +1,32 @@
+[package]
+name = "pinocchio_secp256r1_vault"
+version = "0.1.0"
+edition = "2021"
+
+["lib"]
+crate-type = ["lib","cdylib"]
+
+[dependencies]
+pinocchio = "0.8.4"
+pinocchio-secp256r1-instruction = "0.1.2"
+pinocchio-system = "0.2.3"
+pinocchio-pubkey = { git = "https://github.com/anza-xyz/pinocchio.git" }
+
+
+[dev-dependencies]
+solana-sdk = "2.2.1"
+mollusk-svm = "0.4.0"
+mollusk-svm-bencher = "0.4.0"
+
+[features]
+no-entrypoint = []
+std = []
+test-default = ["no-entrypoint", "std"]
+bench-default = ["no-entrypoint", "std"]
+
+# [[bench]]
+# name = "compute_units"
+# harness = false
+
+[[test]]
+name = "vault"
